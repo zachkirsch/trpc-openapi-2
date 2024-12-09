@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@trpc/server':
-        specifier: next
+        specifier: ^11.0.0-rc.0
         version: 11.0.0-rc.660(typescript@5.7.2)
       zod:
         specifier: ^3.23.8

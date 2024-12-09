@@ -24,7 +24,7 @@
     "zod-to-json-schema": "^3.23.5"
   },
   "peerDependencies": {
-    "@trpc/server": "next",
+    "@trpc/server": "^11.0.0-rc.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
