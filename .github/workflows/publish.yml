@@ -1,9 +1,9 @@
 name: Publish
 
 on:
-  tags:
-    - "[0-9]+.[0-9]+.[0-9]+"
-  pull_request:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   publish:
@@ -19,8 +19,7 @@ jobs:
 
       - name: Get version
         run: |
-          # VERSION=${GITHUB_REF#refs/tags/}
-          VERSION=0.0.1
+          VERSION=${GITHUB_REF#refs/tags/}
           echo Version: $VERSION
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
@@ -44,4 +43,4 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           pnpm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-          pnpm publish --no-git-checks --access public --dry-run
+          pnpm publish --no-git-checks --access public
