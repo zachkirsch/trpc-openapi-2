@@ -10,7 +10,7 @@
   "files": [
     "lib",
     "!lib/**/__test__",
-    "README"
+    "README.md"
   ],
   "scripts": {
     "build": "tsc",
