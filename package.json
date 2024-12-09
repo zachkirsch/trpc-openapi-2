@@ -1,6 +1,6 @@
 {
-  "name": "trpc-openapi-2",
-  "version": "0.0.1",
+  "name": "@zachkirsch/trpc-openapi-2",
+  "version": "",
   "description": "",
   "main": "lib/index.js",
   "files": [
