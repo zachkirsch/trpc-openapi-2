@@ -27,7 +27,7 @@ export function trpcToOpenApi({
     info: { title: apiTitle, version: apiVersion },
     paths: getPathsForRouterRecord(
       basePath,
-      router._def.procedures as RouterRecord
+      router._def.procedures as RouterRecord,
     ),
   };
 }
@@ -43,12 +43,12 @@ const PROCEDURE_TYPE_HTTP_METHOD_MAP: Record<
 
 function getPathsForRouterRecord(
   basePath: string,
-  routerRecord: RouterRecord
+  routerRecord: RouterRecord,
 ): OpenAPIV3_1.PathsObject {
   const paths: OpenAPIV3_1.PathsObject = {};
 
   for (const [procedureName, procedureOrRouterRecord] of entries(
-    routerRecord
+    routerRecord,
   )) {
     Object.assign(
       paths,
@@ -58,7 +58,7 @@ function getPathsForRouterRecord(
             procedureName: String(procedureName),
             procedure: procedureOrRouterRecord,
           })
-        : getPathsForRouterRecord(basePath, procedureOrRouterRecord)
+        : getPathsForRouterRecord(basePath, procedureOrRouterRecord),
     );
   }
 
@@ -95,7 +95,7 @@ function getPathsForProcedure({
     const content = {
       "application/json": {
         schema: zodToJsonSchema(
-          def.inputs[0] as ZodSchema
+          def.inputs[0] as ZodSchema,
         ) as OpenAPIV3.SchemaObject,
       },
     };
@@ -118,8 +118,7 @@ function getPathsForProcedure({
 }
 
 function isProcedure(
-  maybeProcedure: AnyProcedure | RouterRecord
+  maybeProcedure: AnyProcedure | RouterRecord,
 ): maybeProcedure is AnyProcedure {
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare, @typescript-eslint/no-unnecessary-condition
   return (maybeProcedure as AnyProcedure)._def.procedure === true;
 }

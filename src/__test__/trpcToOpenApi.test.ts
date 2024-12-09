@@ -83,7 +83,7 @@ describe("trpcToOpenApi", () => {
             .input(z.object({ name: z.string() }))
             .query(() => undefined),
         }),
-      })
+      }),
     );
 
     const openApiSpec = trpcToOpenApi({
