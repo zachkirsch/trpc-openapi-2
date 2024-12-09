@@ -19,6 +19,7 @@ describe("trpcToOpenApi", () => {
     const openApiSpec = trpcToOpenApi({
       apiTitle: "My API",
       apiVersion: "1.0",
+      basePath: "",
       router,
     });
 
@@ -83,12 +84,13 @@ describe("trpcToOpenApi", () => {
             .input(z.object({ name: z.string() }))
             .query(() => undefined),
         }),
-      }),
+      })
     );
 
     const openApiSpec = trpcToOpenApi({
       apiTitle: "My API",
       apiVersion: "1.0",
+      basePath: "",
       router,
     });
 
