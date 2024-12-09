@@ -10,7 +10,7 @@
 
 ### Step 1: Install `trpc-openapi-2`
 
-```
+```bash
 # npm
 npm install trpc-openapi-2
 
@@ -62,16 +62,20 @@ const router = t.router({
 
 ## Comparison
 
-[`trpc-openapi](https://github.com/trpc/trpc-openapi)
+[`trpc-openapi`](https://github.com/trpc/trpc-openapi)
 and its new fork [`trpc-to-openapi`](https://github.com/mcampa/trpc-to-openapi)
 are the two relevant libraries.
 
+### They modify your API by adding new endpoints
+
 **These other libraries do not simply generate an OpenAPI spec for your existing tRPC server.**
-They add **new endpoints** to your server and then generate an OpenAPI spec for those new endpoints.
+They add _new endpoints_ to your server and then generate an OpenAPI spec for those new endpoints.
 
 For example:
 
 ```typescript
+// trpc-openapi example:
+
 export const appRouter = t.router({
   sayHello: t.procedure
 
@@ -85,6 +89,8 @@ export const appRouter = t.router({
 In comparison, `trpc-openapi-2` simply generates an OpenAPI spec for your existing tRPC API,
 without modifying your API functionality at all.
 
-Additionally, these libraries require that you add `.meta()` to every procedure that you
+### They require you to use `.meta()` on every procedure
+
+These libraries require that you add `.meta()` to every procedure that you
 want included in your OpenAPI spec. In comparison, with `trpc-openapi-2` you can generate
 the full OpenAPI spec by calling `trpcToOpenApi()` without modifying your procedures at all.
