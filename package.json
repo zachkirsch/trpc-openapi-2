@@ -1,0 +1,29 @@
+{
+  "name": "trpc-openapi-2",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "files": [
+    "/lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "openapi-types": "^12.1.3",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8",
+    "zod": "^3.23.8"
+  },
+  "peerDependencies": {
+    "@trpc/server": "next",
+    "zod": "^3.23.8"
+  },
+  "dependencies": {
+    "zod-to-json-schema": "^3.23.5"
+  }
+}
