@@ -1,7 +1,7 @@
 {
-  "name": "@zachkirsch/trpc-openapi-2",
+  "name": "trpc-openapi-2",
   "version": "",
-  "description": "",
+  "description": "Generate an OpenAPI spec from your trpc server, in one line of code",
   "main": "lib/index.js",
   "files": [
     "/lib"
@@ -12,9 +12,19 @@
     "lint:eslint": "eslint --fix src",
     "lint:prettier": "prettier --write src"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "trpc",
+    "openapi"
+  ],
+  "author": "Zach Kirsch",
+  "license": "MIT",
+  "dependencies": {
+    "zod-to-json-schema": "^3.23.5"
+  },
+  "peerDependencies": {
+    "@trpc/server": "next",
+    "zod": "^3.23.8"
+  },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "eslint": "^9.16.0",
@@ -22,14 +32,6 @@
     "prettier": "^3.4.2",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.17.0",
-    "vitest": "^2.1.8",
-    "zod": "^3.23.8"
-  },
-  "peerDependencies": {
-    "@trpc/server": "next",
-    "zod": "^3.23.8"
-  },
-  "dependencies": {
-    "zod-to-json-schema": "^3.23.5"
+    "vitest": "^2.1.8"
   }
 }
