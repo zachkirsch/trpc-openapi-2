@@ -19,6 +19,7 @@ describe("trpcToOpenApi", () => {
     const openApiSpec = trpcToOpenApi({
       apiTitle: "My API",
       apiVersion: "1.0",
+      basePath: "",
       router,
     });
 
@@ -89,6 +90,7 @@ describe("trpcToOpenApi", () => {
     const openApiSpec = trpcToOpenApi({
       apiTitle: "My API",
       apiVersion: "1.0",
+      basePath: "",
       router,
     });
 

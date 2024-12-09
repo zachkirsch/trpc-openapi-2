@@ -14,12 +14,12 @@ import { entries } from "./utils";
 export function trpcToOpenApi({
   apiTitle,
   apiVersion,
-  basePath = "",
+  basePath,
   router,
 }: {
   apiTitle: string;
   apiVersion: string;
-  basePath?: string;
+  basePath: string;
   router: AnyTRPCRouter;
 }): OpenAPIV3_1.Document {
   return {

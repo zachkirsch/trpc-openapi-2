@@ -1,6 +1,3 @@
-import { trpcToOpenApi } from "./trpcToOpenApi";
-
-export { trpcToOpenApi };
-export default trpcToOpenApi;
+export { trpcToOpenApi } from "./trpcToOpenApi";
 
 export { type OpenApiMeta } from "./meta";

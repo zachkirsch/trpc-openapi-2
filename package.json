@@ -1,11 +1,12 @@
 {
   "name": "trpc-openapi-2",
   "version": "1.0.0",
-  "description": "Generate an OpenAPI spec from your trpc server, in one line of code",
+  "description": "Generate an OpenAPI spec from your tRPC server, in one line of code",
   "main": "lib/index.js",
   "files": [
     "lib",
-    "!lib/**/__test__"
+    "!lib/**/__test__",
+    "README.md"
   ],
   "scripts": {
     "build": "tsc",
