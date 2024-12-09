@@ -1,0 +1,36 @@
+name: Lint
+
+on:
+  push: { branches: ["main"] }
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run eslint
+        run: pnpm lint:eslint
+
+      - name: Run prettier
+        run: pnpm lint:prettier
+
+      - name: Ensure no changes to any files
+        run: git diff --exit-code
