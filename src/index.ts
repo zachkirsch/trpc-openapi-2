@@ -1,3 +1,3 @@
-export { trpcToOpenApi } from "./trpcToOpenApi";
+export { trpcToOpenApi } from "./trpcToOpenApi.js";
 
-export { type OpenApiMeta } from "./meta";
+export { type OpenApiMeta } from "./meta.js";

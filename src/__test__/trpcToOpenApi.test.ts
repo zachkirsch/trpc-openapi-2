@@ -1,8 +1,8 @@
 import { initTRPC } from "@trpc/server";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { OpenApiMeta } from "../meta";
-import { trpcToOpenApi } from "../trpcToOpenApi";
+import { OpenApiMeta } from "../meta.js";
+import { trpcToOpenApi } from "../trpcToOpenApi.js";
 
 describe("trpcToOpenApi", () => {
   it("simple router", () => {
