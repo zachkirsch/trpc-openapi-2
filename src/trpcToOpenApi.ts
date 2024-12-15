@@ -7,9 +7,9 @@ import {
 import { type OpenAPIV3, type OpenAPIV3_1 } from "openapi-types";
 import { type ZodSchema } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
-import { OpenApiMeta } from "./meta";
-import { ProcedureBuilderDef } from "./trpcTypes";
-import { entries } from "./utils";
+import { OpenApiMeta } from "./meta.js";
+import { ProcedureBuilderDef } from "./trpcTypes.js";
+import { entries } from "./utils.js";
 
 export function trpcToOpenApi({
   apiTitle,
