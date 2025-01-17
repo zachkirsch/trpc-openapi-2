@@ -137,13 +137,13 @@ function getPathsForProcedure({
         content,
       };
     }
+  }
 
-    if (additionalParameters != null) {
-      operation.parameters = [
-        ...(operation.parameters ?? []),
-        ...(additionalParameters ?? []),
-      ];
-    }
+  if (additionalParameters != null) {
+    operation.parameters = [
+      ...(operation.parameters ?? []),
+      ...(additionalParameters ?? []),
+    ];
   }
 
   return {

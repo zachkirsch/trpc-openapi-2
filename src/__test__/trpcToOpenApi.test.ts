@@ -204,6 +204,7 @@ describe("trpcToOpenApi", () => {
     it("includes headers in every endpoint", () => {
       const t = initTRPC.create();
       const router = t.router({
+        ping: t.procedure.query(() => undefined),
         createThing: t.procedure
           .input(z.object({ name: z.string() }))
           .mutation(() => undefined),
@@ -241,6 +242,10 @@ describe("trpcToOpenApi", () => {
       const expectedHeaderReferences = [
         { $ref: "#/components/parameters/MyHeader" },
       ];
+
+      expect(openApiSpec.paths?.["/ping"]?.get?.parameters).toEqual(
+        expectedHeaderReferences,
+      );
 
       expect(openApiSpec.paths?.["/createThing"]?.post?.parameters).toEqual(
         expectedHeaderReferences,
