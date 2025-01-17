@@ -69,6 +69,7 @@ describe("trpcToOpenApi", () => {
           },
         },
       },
+      components: {},
     });
   });
 
@@ -140,6 +141,7 @@ describe("trpcToOpenApi", () => {
           },
         },
       },
+      components: {},
     });
   });
 
@@ -195,6 +197,58 @@ describe("trpcToOpenApi", () => {
         "/api/getThing",
         "/api/deleteThing",
       ]);
+    });
+  });
+
+  describe("globalHeaders", () => {
+    it("includes headers in every endpoint", () => {
+      const t = initTRPC.create();
+      const router = t.router({
+        createThing: t.procedure
+          .input(z.object({ name: z.string() }))
+          .mutation(() => undefined),
+        getThing: t.procedure
+          .input(z.object({ name: z.string() }))
+          .query(() => undefined),
+      });
+
+      const openApiSpec = trpcToOpenApi({
+        apiTitle: "My API",
+        apiVersion: "1.0",
+        basePath: "",
+        router,
+        globalHeaders: {
+          MyHeader: {
+            in: "header",
+            name: "X-My-Header",
+            schema: { type: "string" },
+            required: false,
+          },
+        },
+      });
+
+      expect(openApiSpec.components).toEqual({
+        parameters: {
+          MyHeader: {
+            in: "header",
+            name: "X-My-Header",
+            schema: { type: "string" },
+            required: false,
+          },
+        },
+      });
+
+      const expectedHeaderReferences = [
+        { $ref: "#/components/parameters/MyHeader" },
+      ];
+
+      expect(openApiSpec.paths?.["/createThing"]?.post?.parameters).toEqual(
+        expectedHeaderReferences,
+      );
+
+      expect(
+        openApiSpec.paths?.["/getThing"]?.get?.parameters?.slice(1),
+      ).toEqual(expectedHeaderReferences);
     });
   });
 });

@@ -4,7 +4,7 @@ import {
   type ProcedureType,
   type RouterRecord,
 } from "@trpc/server/unstable-core-do-not-import";
-import { type OpenAPIV3, type OpenAPIV3_1 } from "openapi-types";
+import { OpenAPIV3, type OpenAPIV3_1 } from "openapi-types";
 import { type ZodSchema } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { OpenApiMeta } from "./meta.js";
@@ -16,19 +16,32 @@ export function trpcToOpenApi({
   apiVersion,
   basePath,
   router,
+  globalHeaders,
 }: {
   apiTitle: string;
   apiVersion: string;
   basePath: string;
   router: AnyTRPCRouter;
+  globalHeaders?: Record<string, OpenAPIV3_1.ParameterObject>;
 }): OpenAPIV3_1.Document {
+  const headerParameters =
+    globalHeaders != null
+      ? Object.keys(globalHeaders).map(
+          (headerKey): OpenAPIV3_1.ReferenceObject => ({
+            $ref: `#/components/parameters/${headerKey}`,
+          }),
+        )
+      : undefined;
+
   return {
     openapi: "3.1.0",
     info: { title: apiTitle, version: apiVersion },
-    paths: getPathsForRouterRecord(
+    paths: getPathsForRouterRecord({
       basePath,
-      router._def.procedures as RouterRecord,
-    ),
+      routerRecord: router._def.procedures as RouterRecord,
+      additionalParameters: headerParameters,
+    }),
+    components: globalHeaders != null ? { parameters: globalHeaders } : {},
   };
 }
 
@@ -41,10 +54,17 @@ const PROCEDURE_TYPE_HTTP_METHOD_MAP: Record<
   subscription: undefined,
 };
 
-function getPathsForRouterRecord(
-  basePath: string,
-  routerRecord: RouterRecord,
-): OpenAPIV3_1.PathsObject {
+function getPathsForRouterRecord({
+  basePath,
+  routerRecord,
+  additionalParameters,
+}: {
+  basePath: string;
+  routerRecord: RouterRecord;
+  additionalParameters:
+    | (OpenAPIV3_1.ReferenceObject | OpenAPIV3_1.ParameterObject)[]
+    | undefined;
+}): OpenAPIV3_1.PathsObject {
   const paths: OpenAPIV3_1.PathsObject = {};
 
   for (const [procedureName, procedureOrRouterRecord] of entries(
@@ -57,8 +77,13 @@ function getPathsForRouterRecord(
             basePath,
             procedureName: String(procedureName),
             procedure: procedureOrRouterRecord,
+            additionalParameters,
           })
-        : getPathsForRouterRecord(basePath, procedureOrRouterRecord),
+        : getPathsForRouterRecord({
+            basePath,
+            routerRecord: procedureOrRouterRecord,
+            additionalParameters,
+          }),
     );
   }
 
@@ -69,10 +94,14 @@ function getPathsForProcedure({
   basePath,
   procedureName,
   procedure,
+  additionalParameters,
 }: {
   basePath: string;
   procedureName: string;
   procedure: AnyProcedure;
+  additionalParameters:
+    | (OpenAPIV3_1.ReferenceObject | OpenAPIV3_1.ParameterObject)[]
+    | undefined;
 }): OpenAPIV3_1.PathsObject {
   const def = procedure._def as unknown as AnyProcedure["_def"] &
     ProcedureBuilderDef;
@@ -107,6 +136,13 @@ function getPathsForProcedure({
         required: true,
         content,
       };
+    }
+
+    if (additionalParameters != null) {
+      operation.parameters = [
+        ...(operation.parameters ?? []),
+        ...(additionalParameters ?? []),
+      ];
     }
   }
 
